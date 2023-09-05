@@ -4,6 +4,8 @@ Instalação
 Necessário NodeJS instalado. Rodar o comando 'npm install' para instalação das dependências e 'npm start' para rodar a aplicação tanto na interface quanto na API.
 
 API
-Para melhor utilização das rotas da API foi utilizado o framework Express
+Desenvolvida em TypeScript
+Para facilitar os comandos com relação ao banco de dados foi utilizado o ORM Sequelize
 
 Interface
+Desenvolvida em ReactJS com TypeScript
