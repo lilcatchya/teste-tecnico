@@ -1,11 +1,14 @@
-O projeto foi desenvolvido em ReactJS e NodeJS nas versões
+Projeto desenvolvido em React.js
+Node.js v18.17.0
+npm v9.6.7
 
 Instalação
-Necessário NodeJS instalado. Rodar o comando 'npm install' para instalação das dependências e 'npm start' para rodar a aplicação tanto na interface quanto na API.
+Rodar o comando 'npm install' para instalação das dependências e 'npm start' tanto na interface quanto na API para rodar a aplicação.
 
 API
 Desenvolvida em TypeScript
 Para facilitar os comandos com relação ao banco de dados foi utilizado o ORM Sequelize
+Para melhor manipulação das rotas Express
 
 Interface
-Desenvolvida em ReactJS com TypeScript
+Desenvolvida em React.js com TypeScript
