@@ -1,1 +1,9 @@
-primeiro commit
+O projeto foi desenvolvido em ReactJS e NodeJS nas versões
+
+Instalação
+Necessário NodeJS instalado. Rodar o comando 'npm install' para instalação das dependências e 'npm start' para rodar a aplicação tanto na interface quanto na API.
+
+API
+Para melhor utilização das rotas da API foi utilizado o framework Express
+
+Interface
