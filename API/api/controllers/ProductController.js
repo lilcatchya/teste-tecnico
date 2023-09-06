@@ -1,5 +1,5 @@
 const database = require('../models')
-const { converteCSV } = require('../utils/index.js')
+const { converteCSV, filtraProdutos } = require('../utils/index.js')
 
 class ProductController {
   static async pegaTodosOsProdutos(req, res) {
@@ -25,16 +25,12 @@ class ProductController {
     try {
       const dadosConvertidos = await converteCSV(req.file.buffer)
 
-      const produtosParaConsultar = dadosConvertidos.map((produto) => {
-        return database.products.findOne({ where: { code: Number(produto.product_code) } });
-    });
+      const dadosDoBanco = await filtraProdutos(dadosConvertidos)
 
-    const dadosDoBanco = await Promise.all(produtosParaConsultar);
-
-      return res.status(200).json({dadosDoBanco: dadosDoBanco, dadosConvertidos: dadosConvertidos})
+      return res.status(200).json({ dadosDoBanco: dadosDoBanco, dadosConvertidos: dadosConvertidos })
 
     } catch (error) {
-      
+
       return console.error(error);
     }
   }
