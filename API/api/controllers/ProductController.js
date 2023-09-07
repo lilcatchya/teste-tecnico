@@ -1,5 +1,5 @@
 const database = require('../models')
-const { converteCSV, filtraProdutos } = require('../utils/index.js')
+const { converteCSV, filtraProdutos, validaProdutos } = require('../utils/index.js')
 
 class ProductController {
   static async pegaTodosOsProdutos(req, res) {
@@ -23,11 +23,21 @@ class ProductController {
 
   static async validacao(req, res) {
     try {
-      const dadosConvertidos = await converteCSV(req.file.buffer)
+      const dadosRecebidos = await converteCSV(req.file.buffer)
 
-      const dadosDoBanco = await filtraProdutos(dadosConvertidos)
+      const dadosDoBanco = await filtraProdutos(dadosRecebidos)
 
-      return res.status(200).json({ dadosDoBanco: dadosDoBanco, dadosConvertidos: dadosConvertidos })
+      const produtosValidados = await validaProdutos(dadosDoBanco, dadosRecebidos)
+
+      
+
+      return res.status(200).json([{ dadosDoBanco: dadosDoBanco, dadosRecebidos: dadosRecebidos }, console.log(produtosValidados)])
+
+      // if (produtosValidados) {
+      //   return res.status(200).json({ dadosDoBanco: dadosDoBanco, dadosRecebidos: dadosRecebidos })
+      // } else {
+      //   throw new Error(error)
+      // }
 
     } catch (error) {
 

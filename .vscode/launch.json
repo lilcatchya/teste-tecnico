@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Executar Programa",
+      "program": "${workspaceFolder}/api/api/index.js",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--inspect-brk"],
+      "outputCapture": "std",
+      "internalConsoleOptions": "openOnSessionStart",
+      "sourceMaps": true,
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js"
+      ],
+      "smartStep": true,
+    }
+  ]
+}
