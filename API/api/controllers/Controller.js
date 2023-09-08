@@ -1,11 +1,20 @@
 const database = require('../models')
-const { converteCSV, filtraProdutos, validaProdutos } = require('../utils/index.js')
+const { converteCSV, filtraProdutosDoBanco, validaProdutos } = require('../utils/index.js')
 
 class ProductController {
   static async pegaTodosOsProdutos(req, res) {
     try {
       const todosOsProdutos = await database.products.findAll()
       return res.status(200).json(todosOsProdutos)
+    } catch (error) {
+      return res.status(500).json(error.message)
+    }
+  }
+
+  static async pegaTodosOsPacks(req, res) {
+    try {
+      const todosOsPacks = await database.packs.findAll()
+      return res.status(200).json(todosOsPacks)
     } catch (error) {
       return res.status(500).json(error.message)
     }
@@ -25,7 +34,7 @@ class ProductController {
     try {
       const dadosRecebidos = await converteCSV(req.file.buffer)
 
-      const dadosDoBanco = await filtraProdutos(dadosRecebidos)
+      const dadosDoBanco = await filtraProdutosDoBanco(dadosRecebidos)
 
       const produtosValidados = await validaProdutos(dadosDoBanco, dadosRecebidos)
 

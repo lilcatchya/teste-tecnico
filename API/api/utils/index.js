@@ -1,5 +1,5 @@
 const converteCSV = require('./converteDados')
-const filtraProdutos = require('./filtraProdutos')
+const filtraProdutosDoBanco = require('./filtraProdutos')
 const validaProdutos = require('./validaProdutos')
 
-module.exports = { converteCSV, filtraProdutos, validaProdutos }
+module.exports = { converteCSV, filtraProdutosDoBanco, validaProdutos }

@@ -1,24 +1,32 @@
 module.exports = async function validaProdutos(dadosDoBanco, itensRecebidos) {
 
-  try {
-    const itens = dadosDoBanco.map((itemDoBanco, index) => {
+  const produtosNoBanco = dadosDoBanco[0]
+  const packsNoBanco = dadosDoBanco[1]
 
-      let cost_price = parseFloat(itemDoBanco.cost_price)
-      let new_price = parseFloat(itensRecebidos[index].new_price)
-      let sales_price = parseFloat(itemDoBanco.sales_price)
+  try {
+    const itens = itensRecebidos.map((itemRecebido) => {
+
+      let itemDoBanco = produtosNoBanco.find((itemDoBanco) => Number(itemRecebido.product_code) == itemDoBanco.code)
       let errors = {}
 
-      const ehValido = verificacoes(itemDoBanco.code, cost_price, sales_price, new_price, errors)
+      if (!verificaSeExiste(itemDoBanco, itemRecebido.product_code, itemRecebido.new_price, errors)) {
+        return { ...itemRecebido, errors }
+      }
+
+      let cost_price = parseFloat(itemDoBanco.cost_price)
+      let new_price = parseFloat(itemRecebido.new_price)
+      let sales_price = parseFloat(itemDoBanco.sales_price)
+
+
+      const ehValido = verificacoes(itemDoBanco.code, itemRecebido.product_code, cost_price, sales_price, new_price, errors)
 
       if (Object.keys(errors).length !== 0) {
-        return { ...itemDoBanco, ehValido, errors }
+        return { ...itemRecebido, ehValido, errors }
       } else {
-        return { ...itemDoBanco, ehValido }
+        return { ...itemRecebido, ehValido }
       }
+
     })
-
-
-    let valido
 
     for (i = 0; i < itens.length; i++) {
       if (itens[i].ehValido) {
@@ -29,8 +37,7 @@ module.exports = async function validaProdutos(dadosDoBanco, itensRecebidos) {
       }
     }
 
-    return valido
-
+    return true
   } catch (error) {
     for (i = 0; i < error.length; i++) {
       if (error[i].errors) {
@@ -41,10 +48,16 @@ module.exports = async function validaProdutos(dadosDoBanco, itensRecebidos) {
   }
 }
 
-function verificacoes(code, sales_price, cost_price, new_price, errors) {
+function verificacoes(codigoDoProdutoNoBanco, codigoDoProdutoRecebido, cost_price, sales_price, new_price, errors) {
+  let verificacao1 = verificaCamposPreenchidos(codigoDoProdutoRecebido, new_price, errors)
+  let verificacao2 = verificaPrecoDeCusto(codigoDoProdutoNoBanco, cost_price, new_price, errors)
+  let verificacao3 = verificaDezPorCento(codigoDoProdutoNoBanco, cost_price, sales_price, new_price, errors)
+
+
   if (
-    verificaPrecoDeCusto(code, cost_price, new_price, errors) &&
-    verificaDezPorCento(sales_price, new_price)
+    verificacao1 &&
+    verificacao2 &&
+    verificacao3
   ) {
     return true
   } else {
@@ -52,26 +65,57 @@ function verificacoes(code, sales_price, cost_price, new_price, errors) {
   }
 }
 
-function verificaPrecoDeCusto(code, cost_price, new_price, errors) {
-  if (cost_price > new_price) {
-    errors.precoDeCusto = `Preço abaixo do valor de custo no item ${code}`
+function verificaSeExiste(item, codigo, preco, errors) {
+  if (item === undefined) {
+
+    verificaCamposPreenchidos(codigo, preco, errors)
+
+    errors.produtoInexistente = `Produto de código ${codigo} não existe no banco de dados.`
+
     return false
   } else {
     return true
   }
 }
 
-// function verificaDezPorCento(sales_price, new_price) {
-//   let dezPorCento = (0.1 * sales_price).toFixed(2)
+function verificaCamposPreenchidos(codigo, preco, errors) {
+  let temErro
+  if (codigo == "") {
+    errors.semCodigo = `Produto com campo de código vazio.`
+    temErro = false
+  } if (preco == "" || isNaN(preco)) {
+    errors.semPreco = `Produto de código ${codigo} com campo de preço inválido ou vazio.`
+    temErro = false
+  } else {
+    return true
+  }
+  return temErro
+}
 
-//   if (new_price > sales_price + dezPorCento || new_price < sales_price - dezPorCento) {
-//     let praMenos = sales_price - dezPorCento
-//     let praMais = sales_price + dezPorCento
-//     praMenos
-//     praMais
+function verificaPrecoDeCusto(code, cost_price, new_price, errors) {
+  if (cost_price > new_price) {
+    errors.precoDeCusto = `Preço abaixo do valor de custo no item ${code}, valores permitidos acima de ${cost_price}.`
+    return false
+  } else {
+    return true
+  }
+}
 
-//     validado = false
-//     item = itensRecebidos[index].product_code
-//     throw new Error(`Novo valor excede a faixa de 10% de diferença no item ${item}, valores permitidos dentro da faixa de ${praMenos} e ${praMais}`);
-//   }
-// }
+function verificaDezPorCento(code, cost_price, sales_price, new_price, errors) {
+  let dezPorCento = (0.1 * sales_price).toFixed(2)
+  dezPorCento = parseFloat(dezPorCento)
+
+  if (new_price > sales_price + dezPorCento || new_price < sales_price - dezPorCento) {
+    let praMenos = (sales_price - dezPorCento).toFixed(2)
+    let praMais = (sales_price + dezPorCento).toFixed(2)
+
+    if (cost_price > praMenos) {
+      errors.dezPorCento = `Novo valor excede a faixa de 10% de diferença no item ${code}, valores permitidos dentro da faixa de ${cost_price} e ${praMais}.`
+    } else {
+      errors.dezPorCento = `Novo valor excede a faixa de 10% de diferença no item ${code}, valores permitidos dentro da faixa de ${praMenos} e ${praMais}.`
+    }
+    return false
+  } else {
+    return true
+  }
+}

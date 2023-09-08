@@ -2,7 +2,7 @@ var DataTypes = require("sequelize").DataTypes;
 var _packs = require("./packs");
 var _products = require("./products");
 
-function initModels(sequelize) {
+module.exports = function initModels(sequelize) {
   var packs = _packs(sequelize, DataTypes);
   var products = _products(sequelize, DataTypes);
 
@@ -16,6 +16,3 @@ function initModels(sequelize) {
     products,
   };
 }
-module.exports = initModels;
-module.exports.initModels = initModels;
-module.exports.default = initModels;
