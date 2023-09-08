@@ -1,12 +1,9 @@
 module.exports = async function validaProdutos(dadosDoBanco, itensRecebidos) {
 
-  const produtosNoBanco = dadosDoBanco[0]
-  const packsNoBanco = dadosDoBanco[1]
-
   try {
     const itens = itensRecebidos.map((itemRecebido) => {
 
-      let itemDoBanco = produtosNoBanco.find((itemDoBanco) => Number(itemRecebido.product_code) == itemDoBanco.code)
+      let itemDoBanco = dadosDoBanco.find((itemDoBanco) => Number(itemRecebido.product_code) == itemDoBanco.code)
       let errors = {}
 
       if (!verificaSeExiste(itemDoBanco, itemRecebido.product_code, itemRecebido.new_price, errors)) {
@@ -37,8 +34,11 @@ module.exports = async function validaProdutos(dadosDoBanco, itensRecebidos) {
       }
     }
 
-    return true
+    console.log('Todos os produtos foram validados e estão prontos para serem atualizados.')
+    return itens
   } catch (error) {
+
+    console.log('Foram encontrados os seguintes erros:')
     for (i = 0; i < error.length; i++) {
       if (error[i].errors) {
         console.error('Erro:', error[i].errors);

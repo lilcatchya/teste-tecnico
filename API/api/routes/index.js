@@ -1,9 +1,7 @@
 const bodyParser = require('body-parser')
-const products = require('./productRouter')
-const packs = require('./packRouter')
+const router = require('./router')
 
 module.exports = app => {
   app.use(bodyParser.json())
-  app.use(products)
-  app.use(packs)
+  app.use(router)
 }
