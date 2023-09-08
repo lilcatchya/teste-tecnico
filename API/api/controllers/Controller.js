@@ -1,5 +1,4 @@
 const database = require('../models')
-const filtraProdutos = require('../utils/filtraProdutos')
 const { converteCSV, filtraProdutosDoBanco, validaProdutos } = require('../utils/index.js')
 
 module.exports = class Controller {
