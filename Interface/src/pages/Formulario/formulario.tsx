@@ -1,5 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Formulario() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -19,7 +20,7 @@ export default function Formulario() {
     }
 
     const formData = new FormData();
-    formData.append('file', selectedFile);
+    formData.append('csvFile', selectedFile);
 
     try {
       const response = await axios.post('http://localhost:8000/products/validar', formData, {
@@ -37,6 +38,7 @@ export default function Formulario() {
 
   return (
     <div>
+      <Link to={`/`}><button>Voltar</button></Link>
       <h1>Formulário de Envio de Arquivo CSV</h1>
       <form onSubmit={handleSubmit}>
         <div>

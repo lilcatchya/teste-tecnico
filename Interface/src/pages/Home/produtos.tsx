@@ -30,7 +30,7 @@ export default function Home() {
                 <TableCell align="right">Preço de Custo</TableCell>
                 <TableCell align="right">Preço de Venda</TableCell>
                 <TableCell align="right">
-                  <Link to={`/home/formulario`}>Editar</Link>
+                  <Link to={`/formulario`}>Editar</Link>
                 </TableCell>
               </TableRow>
             </TableHead>

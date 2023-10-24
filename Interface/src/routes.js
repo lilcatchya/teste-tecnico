@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home/produtos'
-import Formulario from './pages/Home/formulario'
+import Formulario from './pages/Formulario/formulario'
 
 export default function AppRouter() {
   return (
