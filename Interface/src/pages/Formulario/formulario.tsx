@@ -29,7 +29,9 @@ export default function Formulario() {
         },
       });
 
-      setResponseMessage(`Arquivo enviado com sucesso. Resposta do servidor: ${response.data}`);
+      
+    
+      setResponseMessage(`Arquivo enviado com sucesso. Resposta do servidor: ${(JSON.stringify(response.data))}`);
     } catch (error) {
       console.error('Erro ao enviar o arquivo:', error);
       alert('Erro ao enviar o arquivo.');
