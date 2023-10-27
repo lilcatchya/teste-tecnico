@@ -2,7 +2,7 @@ import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper
 import { useEffect, useState } from "react";
 import IProduto from "../../interfaces/IProduto";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import './produtos.css';
 
 export default function Home() {
 
@@ -20,18 +20,16 @@ export default function Home() {
 
   return (
     <main>
-      {<Paper>
-        <TableContainer component={Paper}>
+
+      <TableContainer>
+        <Paper elevation={3} style={{ margin: '16px' }}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
-              <TableRow>
-                <TableCell>Código</TableCell>
-                <TableCell align="right">Nome</TableCell>
-                <TableCell align="right">Preço de Custo</TableCell>
-                <TableCell align="right">Preço de Venda</TableCell>
-                <TableCell align="right">
-                  <Link to={`/formulario`}>Editar</Link>
-                </TableCell>
+              <TableRow style={{ background: '#87CEEB' }}>
+                <TableCell align="center">Código</TableCell>
+                <TableCell align="center">Nome</TableCell>
+                <TableCell align="center">Preço de Custo</TableCell>
+                <TableCell align="center">Preço de Venda</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -40,17 +38,17 @@ export default function Home() {
                   key={produto.code}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell align="right">{produto.code}</TableCell>
-                  <TableCell align="right">{produto.name}</TableCell>
-                  <TableCell align="right">{produto.cost_price}</TableCell>
-                  <TableCell align="right">{produto.sales_price}</TableCell>
+                  <TableCell align="center">{produto.code}</TableCell>
+                  <TableCell align="center">{produto.name}</TableCell>
+                  <TableCell align="center">{produto.cost_price}</TableCell>
+                  <TableCell align="center">{produto.sales_price}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
-      </Paper>
-      }
+        </Paper>
+      </TableContainer>
+
     </main>
   )
 }

@@ -1,0 +1,46 @@
+.divQueEnglobaTudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #DDD;
+  height: 100vh;
+}
+
+button {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+button:hover {
+  background-color: salmon;
+  color: white;
+}
+
+.divDoInput {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.divDoInput label {
+  margin-bottom: 10px;
+  padding: 10px;
+  color: white;
+  background-color: salmon;
+  border-radius: 8px;
+}
+
+.divDoInput label:hover {
+  color: black;
+  background-color: lightgreen;
+}
+
+input {
+  display: none;
+}
+
+.divDaResposta {
+  text-align: center;
+}
