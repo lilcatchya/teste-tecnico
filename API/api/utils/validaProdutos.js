@@ -44,7 +44,7 @@ module.exports = async function validaProdutos(dadosDoBanco, itensRecebidos) {
         console.error('Erro:', error[i].errors);
       }
     }
-    return false
+    return error
   }
 }
 

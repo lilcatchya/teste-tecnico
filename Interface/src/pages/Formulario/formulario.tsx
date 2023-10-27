@@ -2,20 +2,19 @@ import { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './formulario.css';
-import Home from '../Home/produtos';
 import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper } from "@mui/material";
+import IProduto from '../../interfaces/IProduto';
 
-interface batatinha {
+interface produtos2 {
   code: number,
-  name: string,
-  sales_price: number,
   new_price: number
 }
 
 export default function Formulario() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [responseMessage, setResponseMessage] = useState<string>('');
-  const [produtos, setProdutos] = useState<batatinha[]>([])
+  const [responseMessage, setResponseMessage] = useState<JSX.Element | null>(null);
+  const [produtos, setProdutos] = useState<IProduto[]>([])
+  const [produtos2, setProdutos2] = useState<produtos2[]>([])
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -38,38 +37,42 @@ export default function Formulario() {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      });
+      })
+      
+      const dadosDoBanco = response.data.dadosDoBanco
+      const dadosEnviados = response.data.dadosRecebidos
+      const erros = response.data.erros
+      ;
+      
+      setProdutos(dadosDoBanco)
+      setProdutos2(dadosEnviados)
 
-      setProdutos(response.data)
-
-      setResponseMessage(`${<TableContainer>
-        <Paper elevation={3} style={{ margin: '16px' }}>
+      const responseContent = (
+        <TableContainer component={Paper} elevation={3} style={{ margin: '16px' }}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow style={{ background: '#87CEEB' }}>
                 <TableCell align="center">Código</TableCell>
                 <TableCell align="center">Nome</TableCell>
-                <TableCell align="center">Preço de Custo</TableCell>
-                <TableCell align="center">Preço de Venda</TableCell>
+                <TableCell align="center">Preço Anterior</TableCell>
+                <TableCell align="center">Novo Preço</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {produtos.map((produto) => (
-                <TableRow
-                  key={produto.code}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
+              {produtos2.map((produto, i) => (
+                <TableRow key={produto.code} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                   <TableCell align="center">{produto.code}</TableCell>
-                  <TableCell align="center">{produto.name}</TableCell>
-                  <TableCell align="center">{produto.sales_price}</TableCell>
+                  <TableCell align="center">{produtos[i].name}</TableCell>
+                  <TableCell align="center">{produtos[i].sales_price}</TableCell>
+                  <TableCell align="center">{produto.new_price}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-        </Paper>
-      </TableContainer>
-        }`);
+        </TableContainer>
+      );
 
+      setResponseMessage(responseContent);
     } catch (error) {
       console.error('Erro ao enviar o arquivo:', error);
       alert('Erro ao enviar o arquivo.');
@@ -94,8 +97,7 @@ export default function Formulario() {
         </div>
       </form>
       <div className='divDaResposta'>
-        {responseMessage &&
-          <p>{responseMessage}</p>}
+        {responseMessage}
       </div>
     </div>
   );

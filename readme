@@ -4,7 +4,6 @@ npm v9.6.7
 
 API
 Desenvolvida JavaScript utilizando Express e Sequelize.
-Indispensável configurar os campos "username, password e database" para estabelecer conexão com o banco de dados da sua máquina. Caminho do arquivo de configuração: API/api/config/config.json
 
 Interface
 Desenvolvida em React.js e TypeScript
@@ -21,7 +20,7 @@ Escolhi JavaScript ao invés de TypeScript porque tinha mais segurança na lingu
 Tentei minimizar ao máximo as consultas ao banco de dados. Sendo assim, ao acionar o botão verificar serão feitas duas consultas. Isso se deve a que, apesar de haver pesquisado bastante a respeito e analisado o código da cabeça aos pés, não consegui resolver um problema de associação de tabelas com a ORM e estava ficando sem tempo, então decidi deixar duas consultas mesmo.
 
 - quanto a problemas no front-end:
-Infelizmente o único que consegui fazer no front foi chamar todos os produtos da tabela. Fica aparecendo um erro ao rodar a aplicação que não consegui identificar a origem nem resolver. Não consegui validar nem atualizar os produtos e não foi por falta de tentativa. Travei no erro de envio do arquivo CSV para a API e não consegui resolver. Percebi que meu forte é o back-end, mas nem por isso pretendo desistir do front.
+Falta aplicar a função de validação antes da atualização
 
 - Quanto a observações da proposta:
 Vocês pediram uma interface que mostrasse os packs com seus respectivos preços e que ao mudar o preço do pack fosse possível mudar os preços dos produtos através da interface, sendo que isso só é possível se os itens dos packs são os mesmos. Para casos onde o pack tem 2 itens diferentes, reajustar o preço dos itens apenas mudando o valor do pack é simplesmente impossível, a API não tem como adivinhar e atribuir por conta própria qual é o novo preço dos produtos e se isso é possível (coisa que não tenho certeza) é com muito cálculo matemático. O jeito seria que a interface que mostra o pack no front-end tenha campos mostrando quais produtos fazem parte do pack, quais os preços desses produtos e que esses campos sejam todos customizáveis e enviáveis para validações no back-end e posteriormente alteração no banco de dados, mas isso vai contra o conceito de alterações massivas no banco proposto no arquivo de teste técnico, já que o usuário teria que editar na mão os preços pois o arquivo CSV só entrega código do produto e novo valor. E mesmo que entregasse todos os campos teriam que ser arquivos CSV com colunas diferentes e haveria necessidade de que seja implementada uma nova rota exclusiva para atualização massiva de packs.

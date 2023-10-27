@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import IProduto from "../../interfaces/IProduto";
 import axios from "axios";
 import './produtos.css';
+import { Link } from "react-router-dom";
 
 export default function Home() {
 
@@ -20,7 +21,7 @@ export default function Home() {
 
   return (
     <main>
-
+      <Link to={'/formulario'}><button>Ir para formulário</button></Link>
       <TableContainer>
         <Paper elevation={3} style={{ margin: '16px' }}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
